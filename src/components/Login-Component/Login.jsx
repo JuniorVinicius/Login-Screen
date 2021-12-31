@@ -19,7 +19,7 @@ export default function Login (){
                     </div>
                     <div className="box-input">
                         <AiOutlineLock size={20} color="#224C3B"/>
-                        <input type="password" placeholder="Username"/>
+                        <input type="password" placeholder="Password"/>
                     </div>
                     <div>
                         <input id="button" type="submit" value="SIGN IN"/>
