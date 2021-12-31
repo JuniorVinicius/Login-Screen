@@ -35,6 +35,7 @@ form{
     font-size: 14px;
     color: #224C3B;
     font-weight: 700;
+    width: 300px;
 }
 
 .box-input input::placeholder{
