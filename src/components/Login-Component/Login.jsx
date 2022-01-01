@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./style.css";
 import logo from "../../img/logo.png";
 import {AiOutlineUser, AiOutlineLock, AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
+import StoreContext from "../context/Context";
+
+
+function initialState (){
+    return {user: '', password: ''};
+}
+
+function userLogin (user, password){
+    if (user === 'admin' && password === 'admin'){
+        return {token: '1234'};
+    }
+
+    return {error: 'Usuário ou senha inválido!'}
+}
+
 
 export default function Login (){
-    const [buttonText, setButtonText] = useState("SIGN IN");
-    const [spanText, setSpanText] = useState("Singn Up");
-
-    const [signUp, setSignUp] = useState(false);
-
     const [eyeVisible, setEyeVisible] = useState(true);
+    const [values, setValues] = useState(initialState);
+    const [error, setError] = useState(null);
+    const { setToken } = useContext(StoreContext);
 
-
-    function handleInput (){
-        if(signUp === false){
-            setSignUp(true);
-            setButtonText("SIGN UP");
-            setSpanText("Sign In");
-        }else{
-            setButtonText("SIGN IN");
-            setSpanText("Sign Up");
-            setSignUp(false);
-        }
-    }
 
     function switchEye (){
         if (eyeVisible){
@@ -32,10 +33,30 @@ export default function Login (){
             setEyeVisible(true);
         }
     }
+    
+    function onChange (event){
+        const {value, name} = event.target;
+        setValues({
+            ...values,
+            [name]: value,
+        });
+    }
 
     function onSubmit (e){
         e.preventDefault();
+
+        const {token, error} = userLogin(values);
+
+        if(token){
+            setToken(token);
+        }
+
+        setError(error)
+        setValues(initialState)
     }
+    
+
+    
 
     return (
         <div>
@@ -47,38 +68,40 @@ export default function Login (){
                 <form onSubmit={onSubmit}>
                     <div className="box-input">
                         <AiOutlineUser size={20} color="#224C3B"/>
-                        <input type="text" placeholder="Username"/>
+
+                        <input 
+                        type="text" 
+                        placeholder="Username" 
+                        name="user"
+                        autoComplete="off"  
+                        onChange={onChange} 
+                        value={values.user}/>
                     </div>
 
                     <div className="box-input">
                         <AiOutlineLock size={20} color="#224C3B"/>
-                        <input type={eyeVisible?"password":"text"} placeholder="Password"/>
-                        {eyeVisible
-                        ?
-                        <AiOutlineEye onClick={()=> switchEye()} size={20} color="#224C3B"/>
+
+                        <input 
+                        type={eyeVisible?"password":"text"} 
+                        placeholder="Password" 
+                        name="password"
+                        onChange={onChange} 
+                        value={values.password}/>
+
+                        {eyeVisible?
+                        <AiOutlineEyeInvisible onClick={()=> switchEye()} size={20} color="#224C3B"/>
                         :
-                        <AiOutlineEyeInvisible onClick={()=> switchEye()} size={20} color="#224C3B"/>}
+                        <AiOutlineEye onClick={()=> switchEye()} size={20} color="#224C3B"/>}
                     </div>
-                    
-                    {signUp?
-                    <div className="box-input">
-                        <AiOutlineLock size={20} color="#224C3B"/>
-                        <input type={eyeVisible?"password":"text"} placeholder="Confirm password"/>
-                        {eyeVisible
-                        ?
-                        <AiOutlineEye onClick={()=> switchEye()} size={20} color="#224C3B"/>
-                        :
-                        <AiOutlineEyeInvisible onClick={()=> switchEye()} size={20} color="#224C3B"/>}
-                        
-                    </div>
-                    :
-                    ""
-                    }
+
+                    {error && (
+                        <div>{error}</div>
+                    )}
 
                     <div>
-                        <input id="button" type="submit" value={buttonText}/>
+                        <input id="button" type="submit" value="SIGN IN"/>
 
-                        <p>Don’t have an account? <span onClick={() => handleInput()}>{spanText}</span></p>
+                        <p>Don’t have an account? <span>Sign Up</span></p>
                     </div>
                 </form>
             </div>
