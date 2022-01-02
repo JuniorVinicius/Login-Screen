@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext} from "react";
+import { useNavigate } from 'react-router-dom';
 import "./style.css";
 import logo from "../../img/logo.png";
 import {AiOutlineUser, AiOutlineLock, AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
@@ -23,6 +24,9 @@ export default function Login (){
     const [error, setError] = useState(null);
     const { setToken } = useContext(StoreContext);
 
+    let navigate = useNavigate();
+
+    const newPage = route => navigate(route);
 
     function switchEye (){
         if (eyeVisible){
@@ -47,6 +51,7 @@ export default function Login (){
 
         if(token){
             setToken(token)
+            newPage('/profile');
         }
         
         setValues(initialState)
@@ -54,11 +59,10 @@ export default function Login (){
         
     }
     
-
     
 
     return (
-        <div>
+        <div className="background">
             <div id="conteiner">
                 <figure>
                     <img src={logo} alt="Forest Logo" title="Protect the forest!"/>
@@ -100,7 +104,7 @@ export default function Login (){
                     <div>
                         <input id="button" type="submit" value="SIGN IN"/>
 
-                        <p>Don’t have an account? <span>Sign Up</span></p>
+                        <p>Don't have an account? <span>Sign Up</span></p>
                     </div>
                 </form>
             </div>

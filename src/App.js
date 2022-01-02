@@ -1,13 +1,10 @@
 import './App.css';
-import Login from './components/login-component/Login';
-import StoreProvider from '../src/components/context/Provider';
+import MainRoutes from './components/routes/Routes';
 
 function App() {
   return (
     <div className="App">
-      <StoreProvider>
-        <Login/>
-      </StoreProvider>
+        <MainRoutes/>
     </div>
   );
 }
