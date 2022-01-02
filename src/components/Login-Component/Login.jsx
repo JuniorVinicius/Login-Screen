@@ -5,17 +5,15 @@ import {AiOutlineUser, AiOutlineLock, AiOutlineEye, AiOutlineEyeInvisible} from 
 
 import StoreContext from "../context/Context";
 
-
 function initialState (){
     return {user: '', password: ''};
 }
 
-function userLogin (user, password){
-    if (user === 'admin' && password === 'admin'){
-        return {token: '1234'};
+function userLogin (values){
+    if (values.user === 'admin' && values.password){
+       return { token:"1234" } 
     }
-
-    return {error: 'Usuário ou senha inválido!'}
+    return {error: "User or password not found!"}
 }
 
 
@@ -48,11 +46,12 @@ export default function Login (){
         const {token, error} = userLogin(values);
 
         if(token){
-            setToken(token);
+            setToken(token)
         }
-
-        setError(error)
+        
         setValues(initialState)
+        setError(error)
+        
     }
     
 

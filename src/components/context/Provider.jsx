@@ -1,20 +1,19 @@
 import React, {useState} from 'react';
 import StoreContext from './Context'
 
-const StoreProvider = ({children}) => {
+const StoreProvider = props => {
 
     const [token, setToken] = useState(JSON.parse(localStorage.getItem('token') || '{}'))
 
     localStorage.setItem('token', JSON.stringify(token))
 
     return (
-        <StoreContext.Provider
-         value={{
+        <StoreContext.Provider value={{
              token,
-             setToken,
+             setToken
          }}
         >
-            {children}
+            {props.children}
         </StoreContext.Provider>
     )
 }
