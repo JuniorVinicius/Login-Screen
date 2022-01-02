@@ -3,7 +3,7 @@ import StoreContext from './Context'
 
 const StoreProvider = props => {
 
-    const [token, setToken] = useState(JSON.parse(localStorage.getItem('token') || '{}'))
+    const [token, setToken] = useState(JSON.parse(localStorage.getItem('token') || 'null'))
 
     localStorage.setItem('token', JSON.stringify(token))
 

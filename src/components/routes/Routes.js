@@ -7,15 +7,19 @@ import {
 
 import StoreProvider from '../context/Provider';
 import LoginPage from '../pages/login/login';
-import Profile from '../pages/profile-user/Profile'
+import Profile from '../pages/profile-user/Profile';
+import ProtectedRoutes from './private/privateTest';
+
 
 export default function MainRoutes(){
     return(
         <Router>
             <StoreProvider>
                 <Routes>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/" element={<LoginPage/>}/>
+                    <Route element={<ProtectedRoutes/>}>
+                        <Route path="/profile" element={<Profile/>}/>
+                    </Route>
                 </Routes>
             </StoreProvider>
         </Router>
