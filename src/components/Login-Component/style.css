@@ -78,14 +78,14 @@ p {
   color: #002215;
 }
 
-span {
+p span {
   color: #00321e;
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
 }
 
-span:hover {
+p span:hover {
   color: #007445;
 }
 
