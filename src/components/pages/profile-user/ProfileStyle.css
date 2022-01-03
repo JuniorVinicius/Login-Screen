@@ -56,7 +56,7 @@
   margin: 10px 0px;
 }
 
-button{
+#background button{
   width: 170px;
   height: 40px;
   border-radius: 20px;
@@ -68,6 +68,6 @@ button{
   transition: 0.3s;
 }
 
-button:hover{
+#background button:hover{
   background-color: #eeeeee;
 }
