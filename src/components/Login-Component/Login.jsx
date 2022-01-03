@@ -16,7 +16,7 @@ function initialState() {
 }
 
 function userLogin(values) {
-  if (values.user === "admin" && values.password) {
+  if (values.user === "admin" && values.password === "admin") {
     return { token: "1234" };
   }
   return { error: "User or password not found!" };
@@ -109,7 +109,7 @@ export default function Login() {
             )}
           </div>
 
-          {error && <div>{error}</div>}
+          {error && <p id="error">{error}</p>}
 
           <div>
             <input id="button" type="submit" value="SIGN IN" />

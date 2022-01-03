@@ -89,6 +89,11 @@ p span:hover {
   color: #007445;
 }
 
+#error{
+  color: red;
+  font-weight: bold;
+}
+
 @keyframes fadeInAnimation {
   0% {
     opacity: 0;
