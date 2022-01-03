@@ -1,113 +1,125 @@
-import React, { useState, useContext} from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 import logo from "../../img/logo.png";
-import {AiOutlineUser, AiOutlineLock, AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
+import {
+  AiOutlineUser,
+  AiOutlineLock,
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+} from "react-icons/ai";
 
 import StoreContext from "../context/Context";
 
-function initialState (){
-    return {user: '', password: ''};
+function initialState() {
+  return { user: "", password: "" };
 }
 
-function userLogin (values){
-    if (values.user === 'admin' && values.password){
-       return { token:"1234" } 
-    }
-    return {error: "User or password not found!"}
+function userLogin(values) {
+  if (values.user === "admin" && values.password) {
+    return { token: "1234" };
+  }
+  return { error: "User or password not found!" };
 }
 
+export default function Login() {
+  const [eyeVisible, setEyeVisible] = useState(true);
+  const [values, setValues] = useState(initialState);
+  const [error, setError] = useState(null);
+  const { setToken } = useContext(StoreContext);
 
-export default function Login (){
-    const [eyeVisible, setEyeVisible] = useState(true);
-    const [values, setValues] = useState(initialState);
-    const [error, setError] = useState(null);
-    const { setToken } = useContext(StoreContext);
+  let navigate = useNavigate();
 
-    let navigate = useNavigate();
+  const newPage = (route) => navigate(route);
 
-    const newPage = route => navigate(route);
-
-    function switchEye (){
-        if (eyeVisible){
-            setEyeVisible(false);
-        }else{
-            setEyeVisible(true);
-        }
+  function switchEye() {
+    if (eyeVisible) {
+      setEyeVisible(false);
+    } else {
+      setEyeVisible(true);
     }
-    
-    function onChange (event){
-        const {value, name} = event.target;
-        setValues({
-            ...values,
-            [name]: value,
-        });
+  }
+
+  function onChange(event) {
+    const { value, name } = event.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+
+    const { token, error } = userLogin(values);
+
+    if (token) {
+      setToken(token);
+      newPage("/profile");
     }
 
-    function onSubmit (e){
-        e.preventDefault();
+    setValues(initialState);
+    setError(error);
+  }
 
-        const {token, error} = userLogin(values);
+  return (
+    <div className="background">
+      <div id="conteiner">
+        <figure>
+          <img src={logo} alt="Forest Logo" title="Protect the forest!" />
+        </figure>
 
-        if(token){
-            setToken(token)
-            newPage('/profile');
-        }
-        
-        setValues(initialState)
-        setError(error)
-        
-    }
-    
-    
+        <form onSubmit={onSubmit}>
+          <div className="box-input">
+            <AiOutlineUser size={20} color="#224C3B" />
 
-    return (
-        <div className="background">
-            <div id="conteiner">
-                <figure>
-                    <img src={logo} alt="Forest Logo" title="Protect the forest!"/>
-                </figure>
+            <input
+              type="text"
+              placeholder="Username"
+              name="user"
+              autoComplete="off"
+              onChange={onChange}
+              value={values.user}
+            />
+          </div>
 
-                <form onSubmit={onSubmit}>
-                    <div className="box-input">
-                        <AiOutlineUser size={20} color="#224C3B"/>
+          <div className="box-input">
+            <AiOutlineLock size={20} color="#224C3B" />
 
-                        <input 
-                        type="text" 
-                        placeholder="Username" 
-                        name="user"
-                        autoComplete="off"  
-                        onChange={onChange} 
-                        value={values.user}/>
-                    </div>
+            <input
+              type={eyeVisible ? "password" : "text"}
+              placeholder="Password"
+              name="password"
+              onChange={onChange}
+              value={values.password}
+            />
 
-                    <div className="box-input">
-                        <AiOutlineLock size={20} color="#224C3B"/>
+            {eyeVisible ? (
+              <AiOutlineEyeInvisible
+                onClick={() => switchEye()}
+                size={20}
+                color="#224C3B"
+              />
+            ) : (
+              <AiOutlineEye
+                onClick={() => switchEye()}
+                size={20}
+                color="#224C3B"
+              />
+            )}
+          </div>
 
-                        <input 
-                        type={eyeVisible?"password":"text"} 
-                        placeholder="Password" 
-                        name="password"
-                        onChange={onChange} 
-                        value={values.password}/>
+          {error && <div>{error}</div>}
 
-                        {eyeVisible?
-                        <AiOutlineEyeInvisible onClick={()=> switchEye()} size={20} color="#224C3B"/>
-                        :
-                        <AiOutlineEye onClick={()=> switchEye()} size={20} color="#224C3B"/>}
-                    </div>
+          <div>
+            <input id="button" type="submit" value="SIGN IN" />
 
-                    {error && (
-                        <div>{error}</div>
-                    )}
-
-                    <div>
-                        <input id="button" type="submit" value="SIGN IN"/>
-
-                        <p>Don't have an account? <span>Sign Up</span></p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
+            <p>
+              Don't have an account? <span>Sign Up</span>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }

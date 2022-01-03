@@ -1,17 +1,20 @@
-import React, {useContext} from 'react';
-import {Route, useNavigate} from 'react-router-dom';
-import StoreContext from '../../context/Context';
+import React, { useContext } from "react";
 
-export default function RoutesPrivate ({component: Component, ...rest}){
-    const {token} = useContext(StoreContext);
-    let navigate = useNavigate();
+import { Outlet, Navigate } from "react-router-dom";
+import StoreContext from "../../context/Context";
 
-    return (
-    <Route {...rest} render={() => token
-        ? <Component {...rest}/>
-        : navigate("/login")
-        }/>
-        
-    )
-    
-}
+const useAuth = () => {
+  const { token } = useContext(StoreContext);
+
+  const user = { isLoggedIn: token !== null ? true : false };
+
+  return user && user.isLoggedIn;
+};
+
+const ProtectedRoutes = () => {
+  const isAuth = useAuth();
+
+  return isAuth ? <Outlet /> : <Navigate to="/" />;
+};
+
+export default ProtectedRoutes;
