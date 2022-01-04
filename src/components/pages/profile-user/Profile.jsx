@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import "./ProfileStyle.css";
 import logo from "../../../img/white-logo.png";
-
 import StoreContext from "../../context/Context";
 
 

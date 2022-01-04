@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-
 import { Outlet, Navigate } from "react-router-dom";
 import StoreContext from "../../context/Context";
 

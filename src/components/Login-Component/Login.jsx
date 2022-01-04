@@ -1,14 +1,13 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
-import logo from "../../img/logo.png";
 import {
   AiOutlineUser,
   AiOutlineLock,
   AiOutlineEye,
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
-
+import "./style.css";
+import logo from "../../img/logo.png";
 import StoreContext from "../context/Context";
 
 function initialState() {
